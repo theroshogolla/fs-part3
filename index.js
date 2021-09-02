@@ -87,16 +87,6 @@ app.post('/api/persons', (request, response, next) => {
 app.put('/api/persons/:id', (request, response, next) => {
   const personData = request.body
 
-  if (!personData.name) {
-    return response.status(400).json({
-      error: 'name is missing'
-    })
-  } else if (!personData.number) {
-    return response.status(400).json({
-      error: 'number is missing'
-    })
-  }
-
   const newPerson = {
     name: personData.name,
     number: personData.number
@@ -105,7 +95,7 @@ app.put('/api/persons/:id', (request, response, next) => {
   console.log(newPerson)
 
   Person
-    .findByIdAndUpdate(request.params.id, newPerson, { runValidators: true, new: true })
+    .findByIdAndUpdate(request.params.id, newPerson, { new: true, runValidators: true })
     .then(newPerson => {
       response.json(newPerson)
     })
